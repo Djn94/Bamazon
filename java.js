@@ -36,8 +36,12 @@ connection.query("SELECT * FROM products", function (err, res) {
         ]).then(function (response) {
             let orderAmount = response.quantity;
             let amountAvailable = selectedItem.stock;
+            console.log(orderAmount)
+            console.log(amountAvailable)
             if (orderAmount < amountAvailable) {
                 console.log('we can do that');
+                let newStock = (amountAvailable - orderAmount);
+                console.log(newStock)
             }
             else {
                 console.log("sorry we don't have that many");
