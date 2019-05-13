@@ -17,4 +17,6 @@ set buyQuantity to user input
 check buyQuantity against stock_quantity
 log insufficient quantity if necessary
 else, update the stock in sql and log total price of purchase 
+__________________________________________________________--
+
 if not enogh, log insufficient quantity
