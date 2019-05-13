@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+let selectedID = '';
 const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -14,5 +15,27 @@ connection.connect(function (err) {
 });
 connection.query("SELECT * FROM products", function (err, res) {
     if (err) throw err;
-    console.log(res);
+    let productList = res;
+    console.log(productList);
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Which item would you like to purchase? Select by ID number (1-10)',
+            name: 'selection',
+        }
+
+    ]).then(function (response, err) {
+        if (err) throw err;
+        let selectedItem = productList[response.selection]
+        inquirer.prompt([
+            {
+                type: 'input',
+                message: 'How many?',
+                name: 'quantity'
+            },
+        ]).then(function (response) {
+            console.log(response)
+        });
+    }
+    );
 });
