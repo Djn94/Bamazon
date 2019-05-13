@@ -1,6 +1,5 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
-let selectedID = '';
 const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -26,7 +25,7 @@ connection.query("SELECT * FROM products", function (err, res) {
 
     ]).then(function (response, err) {
         if (err) throw err;
-        let selectedItem = productList[response.selection]
+        let selectedItem = productList[response.selection]  //fix this
         inquirer.prompt([
             {
                 type: 'input',
@@ -36,17 +35,25 @@ connection.query("SELECT * FROM products", function (err, res) {
         ]).then(function (response) {
             let orderAmount = response.quantity;
             let amountAvailable = selectedItem.stock;
-            console.log(orderAmount)
-            console.log(amountAvailable)
             if (orderAmount < amountAvailable) {
                 console.log('we can do that');
                 let newStock = (amountAvailable - orderAmount);
-                console.log(newStock)
+                const query = connection.query(
+                    "UPDATE products SET ? WHERE ?",
+                    [
+                        {
+                            quantity: newStock
+                        },
+                    ],
+                    function (err, res) {
+                        let itemCost = selectedItem.cost;
+                        let totalCost = (itemCost * orderAmount);
+                        console.log('Total cost of your order will be ' + totalCost + ' dollars.')
+                    });
             }
             else {
-                console.log("sorry we don't have that many");
+                console.log("Sorry we don't have that many. We only have" + amountAvailable + " left.");
             }
-
         });
     }
     );

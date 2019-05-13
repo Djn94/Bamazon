@@ -20,3 +20,10 @@ else, update the stock in sql and log total price of purchase
 __________________________________________________________--
 
 if not enogh, log insufficient quantity
+
+MANAGER>
+List menu options (inquirer list)
+products for sale > (product.names, .prices, .quantities, .ids)
+low inventory (anything under 5(different for diff departments?)
+add to inventory (allows to add to any item in the store)
+add new product (Write whole new product)
