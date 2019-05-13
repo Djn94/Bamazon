@@ -1,0 +1,20 @@
+takes orders from user input (inquirer?)
+subtracts order from current stock (remove from table)
+create database bamazon_db
+create table >> products
+item_id auto increments,
+product_name
+department_name
+cost
+quantity
+
+make 10 diff products
+node app that displays all items (ids names and prices)
+prompt- which id would you like to buy?
+set buyId to user input
+how many?
+set buyQuantity to user input
+check buyQuantity against stock_quantity
+log insufficient quantity if necessary
+else, update the stock in sql and log total price of purchase 
+if not enogh, log insufficient quantity
