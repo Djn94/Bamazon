@@ -25,7 +25,10 @@ connection.query("SELECT * FROM products", function (err, res) {
 
     ]).then(function (response, err) {
         if (err) throw err;
-        let selectedItem = productList[response.selection]  //fix this
+        let selectionIndex = parseInt(response.selection)
+        console.log(selectionIndex)
+        let selectedItem = productList[(selectionIndex - 1)]
+        console.log(selectedItem)
         inquirer.prompt([
             {
                 type: 'input',
