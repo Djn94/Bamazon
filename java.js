@@ -29,35 +29,40 @@ connection.query("SELECT * FROM products", function (err, res) {
         console.log(selectionIndex)
         let selectedItem = productList[(selectionIndex - 1)]
         console.log(selectedItem)
-        inquirer.prompt([
-            {
-                type: 'input',
-                message: 'How many?',
-                name: 'quantity'
-            },
-        ]).then(function (response) {
-            let orderAmount = response.quantity;
-            let amountAvailable = selectedItem.stock;
-            if (orderAmount < amountAvailable) {
-                console.log('we can do that');
-                let newStock = (amountAvailable - orderAmount);
-                const query = connection.query(
-                    "UPDATE products SET ? WHERE ?",
-                    [
-                        {
-                            quantity: newStock
-                        },
-                    ],
-                    function (err, res) {
-                        let itemCost = selectedItem.cost;
-                        let totalCost = (itemCost * orderAmount);
-                        console.log('Total cost of your order will be ' + totalCost + ' dollars.')
-                    });
-            }
-            else {
-                console.log("Sorry we don't have that many. We only have" + amountAvailable + " left.");
-            }
-        });
+        if (selectionIndex <= 1 || selectionIndex >= 11) {
+            console.log('Invalid ID')
+        }
+        else {
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    message: 'How many?',
+                    name: 'quantity'
+                },
+            ]).then(function (response) {
+                let orderAmount = response.quantity;
+                let amountAvailable = selectedItem.stock;
+                if (orderAmount < amountAvailable) {
+                    console.log('we can do that');
+                    let newStock = (amountAvailable - orderAmount);
+                    const query = connection.query(
+                        "UPDATE products SET ? WHERE ?",
+                        [
+                            {
+                                quantity: newStock
+                            },
+                        ],
+                        function (err, res) {
+                            let itemCost = selectedItem.cost;
+                            let totalCost = (itemCost * orderAmount);
+                            console.log('Total cost of your order will be ' + totalCost + ' dollars.')
+                        });
+                }
+                else {
+                    console.log("Sorry we don't have that many. We only have " + amountAvailable + " left.");
+                }
+            });
+        }
     }
     );
 });
