@@ -1,4 +1,4 @@
-
+DROP TABLE products;
 CREATE DATABASE IF NOT EXISTS products_db;
 USE products_db;
 CREATE TABLE IF NOT EXISTS products (
@@ -9,8 +9,6 @@ CREATE TABLE IF NOT EXISTS products (
   stock INTEGER (4) NOT NULL,
   PRIMARY KEY (id)
 );
-SELECT * FROM PRODUCTS;
-
 INSERT INTO products (prod_name, depart_name, cost, stock)
 VALUES ("Shoes", 'clothing', 60.00, 6), 
 ("DressShirt", 'clothing', 30.00, 12), 
@@ -24,8 +22,4 @@ VALUES ("Shoes", 'clothing', 60.00, 6),
 ("Filet", "steak", 64.00, 4);
 SELECT * FROM PRODUCTS;
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
-UPDATE products SET cost=1 WHERE id=1;
-UPDATE products SET stock=4 WHERE id=2;
-UPDATE products SET stock=${newStock} WHERE id=${selectedItem.id},
-
 
