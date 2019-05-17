@@ -9,6 +9,7 @@ const connection = mysql.createConnection({
 });
 connection.connect(function (err) {
     if (err) throw err;
+
     console.log("connected as id " + connection.threadId);
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
@@ -24,9 +25,9 @@ connection.connect(function (err) {
         ]).then(function (response, err) {
             if (err) throw err;
             let selectionIndex = parseInt(response.selection)
-            console.log(selectionIndex)
-            let selectedItem = productList[(selectionIndex - 1)]
-            console.log(selectedItem)
+            console.log(productList[1]);
+            let arrayIndex = (selectionIndex - 1);
+            let selectedItem = productList[arrayIndex];
             if (selectionIndex <= 1 || selectionIndex >= 11) {
                 console.log('Invalid ID')
             }
@@ -43,26 +44,27 @@ connection.connect(function (err) {
                     if (orderAmount <= amountAvailable) {
                         console.log('we can do that');
                         let newStock = (amountAvailable - orderAmount);
-                        const query = connection.query(
-                            "UPDATE products SET ? WHERE ?",
-                            [
-                                {
-                                    quantity: newStock
-                                },
-                            ],
+                        console.log("hello")
+                        connection.query(
+
+                            'UPDATE products SET stock = 20 WHERE id = 9',
+
                             function (err, res) {
                                 let itemCost = selectedItem.cost;
                                 let totalCost = (itemCost * orderAmount);
-                                console.log('Total cost of your order will be ' + totalCost + ' dollars.')
-                            });
+                                // console.log(query.sql)
+                                console.log('Total cost of your order will be ' + totalCost + ' dollars.');
+
+                            }
+                        );
+                        console.log("bye");
                     }
                     else {
                         console.log("Sorry we don't have that many. We only have " + amountAvailable + " left.");
                     }
                 });
             }
-        }
-        );
+        });
     });
     connection.end();
 });
