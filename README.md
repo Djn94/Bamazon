@@ -11,8 +11,7 @@ To begin your search through available items, run the java.js file with Node. Se
 
 Code by Don Newman, feel free to use but please credit me approppriately (: .
 
-Working screenshots:  
+Working screenshot:  
 
-![screenone](https://i.ibb.co/ZSY0J3C/picOne.png)
+![screenone](https://i.ibb.co/803zqPq/firsscreen.png)
 
-![screentwo](https://i.ibb.co/Jkp1rLj/Smol-pic.png)
