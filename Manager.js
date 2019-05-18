@@ -23,10 +23,7 @@ function selectLoStock() {
     });
     connection.end(); //return to menu
 }
-
-connection.connect(function (err) {
-    if (err) throw err;
-
+function updateProducts() {
     connection.query("UPDATE products SET ? WHERE ? ",
         [
             {
@@ -42,4 +39,17 @@ connection.connect(function (err) {
             selectAll();
             connection.end();
         });
-});
+};
+function createNew() {
+    connection.query("INSERT INTO products SET ?",
+        {
+
+            prod_name: "Icecream",
+            depart_name: "food",
+            stock: 11,
+            cost: 4
+        }, function (err, res) {
+            if (err) throw err;
+            selectAll();
+        });
+}
