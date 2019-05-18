@@ -8,17 +8,14 @@ const connection = mysql.createConnection({
     database: "products_db"
 });
 function selectAll() {
-    connection.connect(function (err) {
-        if (err) throw err;
-        console.log('aye')
-        connection.query("SELECT * FROM PRODUCTS", function (err, res) {
-            if (err) throw err;
-            console.log(res);
 
-        });
-        connection.end(); //return to menu function
+    connection.query("SELECT * FROM PRODUCTS", function (err, res) {
+        if (err) throw err;
+        console.log(res);
+
     });
 };
+
 function selectLoStock() {
     connection.query("SELECT * FROM PRODUCTS WHERE stock<5", function (err, res) {
         if (err) throw err;
@@ -29,4 +26,20 @@ function selectLoStock() {
 
 connection.connect(function (err) {
     if (err) throw err;
+
+    connection.query("UPDATE products SET ? WHERE ? ",
+        [
+            {
+                stock: 120
+            },
+            {
+                prod_name: "Slacks"
+            }
+        ],
+        function (err, res) {
+            if (err) throw err;
+            console.log('updated')
+            selectAll();
+            connection.end();
+        });
 });
