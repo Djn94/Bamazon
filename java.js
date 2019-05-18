@@ -38,7 +38,7 @@ connection.connect(function (err) {
                         let orderAmount = response.quantity;
                         let amountAvailable = selectedItem.stock;
                         if (orderAmount <= amountAvailable) {
-                            console.log('we can do that');
+                            console.log(`We have enough in stock to fill your ${orderAmount} order(s) of ${selectedItem.prod_name}.  `);
                             let newStock = (amountAvailable - orderAmount);
                             connection.query(
                                 `UPDATE products SET stock = ${newStock} WHERE id = ${selectedItem.id}`,
@@ -47,7 +47,7 @@ connection.connect(function (err) {
                                     let itemCost = selectedItem.cost;
                                     let totalCost = (itemCost * orderAmount);
                                     console.log('Total cost of your order will be ' + totalCost + ' dollars.');
-                                    console.log("bye");
+                                    console.log("Good bye");
                                     connection.end();
 
                                 })
