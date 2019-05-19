@@ -57,3 +57,18 @@ function createNew() {
 // then inquire prompt which item id to add to, inquire prompt how many to add, the updateItem function to run with the variables, and then a 
 //seledt to view the updated item and print the cost, and create new, inquire prompt for prod_name, depart_name, stock, and cost, and then a select
 //function for new item.
+
+inquirer.prompt([
+    {
+        type: "list",
+        name: "mainMenuSelect",
+        message: "Please select an option from the available list: ",
+        choices: ["View all products", "View low stock", "Replenish stock", "Add new item", "Exit"]
+    }
+
+
+]).then(function (user) {
+    console.log('hello');
+    console.log(user);
+    console.log(user.mainMenuSelect)
+})
