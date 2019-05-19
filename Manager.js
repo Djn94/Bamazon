@@ -65,10 +65,53 @@ inquirer.prompt([
         message: "Please select an option from the available list: ",
         choices: ["View all products", "View low stock", "Replenish stock", "Add new item", "Exit"]
     }
-
-
 ]).then(function (user) {
     console.log('hello');
     console.log(user);
     console.log(user.mainMenuSelect)
-})
+    let userChoice = user.mainMenuSelect;
+    if (userChoice === "View all products") {
+        console.log('-----------------------------');
+        console.log('Here you may view all available products: ')
+        selectAll();
+    };
+    if (userChoice === "View low stock") {
+        console.log('---------------------------------------')
+
+        console.log('Here are all products with a stock of five or less: ')
+        selectLoStock();
+    };
+    if (userChoice === "Replenish stock") {
+        console.log('--------------------------------------')
+        console.log('Here you may order more items: ')
+        //would you like to only view low stock items, or all items?
+        inquirer.prompt([{
+            type: 'list',
+            name: 'allOrLow',
+            message: 'Would you like to view all products, or only those with low inventory?',
+            choices: ["View all products", "View low stock"]
+        }]).then(function (user) {
+            console.log(userChoice);
+            console.log("Add new item");
+            if (user.allOrLow === 'View all products') {
+                console.log('view all products');
+            }
+            else {
+                console.log('view low stock');
+            }
+        });
+        // selectAll();, or selectLoStock();
+        // updateProducts();
+    }
+    if (userChoice === "Add new item") {
+        console.log('---------------------------------')
+        console.log('Here you can add new products! ')
+
+    }
+    else {
+
+        console.log('Good bye (:')
+            // connection.end();
+            ;
+    }
+});
