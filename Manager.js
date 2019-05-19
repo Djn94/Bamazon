@@ -12,6 +12,7 @@ function selectAll() {
     connection.query("SELECT * FROM PRODUCTS", function (err, res) {
         if (err) throw err;
         console.log(res);
+        const productList = res;
 
     });
 };
@@ -66,24 +67,21 @@ inquirer.prompt([
         choices: ["View all products", "View low stock", "Replenish stock", "Add new item", "Exit"]
     }
 ]).then(function (user) {
-    console.log('hello');
-    console.log(user);
-    console.log(user.mainMenuSelect)
+
     let userChoice = user.mainMenuSelect;
     if (userChoice === "View all products") {
         console.log('-----------------------------');
-        console.log('Here you may view all available products: ')
+        console.log('Here you may view all available products: ');
         selectAll();
     };
     if (userChoice === "View low stock") {
-        console.log('---------------------------------------')
-
-        console.log('Here are all products with a stock of five or less: ')
+        console.log('---------------------------------------');
+        console.log('Here are all products with a stock of five or less: ');
         selectLoStock();
     };
     if (userChoice === "Replenish stock") {
-        console.log('--------------------------------------')
-        console.log('Here you may order more items: ')
+        console.log('--------------------------------------');
+        console.log('Here you may order more items: ');
         //would you like to only view low stock items, or all items?
         inquirer.prompt([{
             type: 'list',
@@ -95,12 +93,50 @@ inquirer.prompt([
             console.log("Add new item");
             if (user.allOrLow === 'View all products') {
                 console.log('view all products');
-            }
-            else {
+                selectAll();
+                console.log('here domes the inquirer');
+                inquirer.prompt([{
+                    type: 'input',
+                    name: 'orderId',
+                    message: "Please enter the product's ID you wish to order more of: "
+                }]
+                ).then(function (useransw) {
+                    connection.query("SELECT * FROM PRODUCTS", function (err, res) {
+                        if (err) throw err;
+                        const productList = res;
+                        const arrayIndex = useransw.orderId;
+                        const adjustedIndex = (arrayIndex - 1);
+                        console.log(productList[adjustedIndex]);
+                        const renewItem = productList[adjustedIndex];
+                        inquirer.prompt([{
+                            type: 'input',
+                            name: 'orderAmount',
+                            message: 'How many would you like to order? '
+                        }]).then(function (newOrder) {
+                            const orderNum = newOrder.orderAmount;
+                            const itemCost = renewItem.cost;
+                            const orderCost = (itemCost * orderNum)
+                            console.log(`we will be ordering ${orderNum} units of ${renewItem.prod_name} at a cost of ${orderCost} dollars`)
+                        });
+                    });
+                });
+            };
+            else if (user.allOrLow === "View low stock") {
                 console.log('view low stock');
+                selectLoStock();
+                inquirer.prompt([{
+                    type: 'input',
+                    name: 'orderId',
+                    message: "Please enter the product's ID you wish to order more of: "
+                }]
+                ).then(function (useransw) {
+                    console.log(useransw);
+                    console.log(useransw.orderId);
+                    console.log('we will order more of' + useransw.orderId);
+                    // connection.end();
+                })
             }
         });
-        // selectAll();, or selectLoStock();
         // updateProducts();
     }
     if (userChoice === "Add new item") {
