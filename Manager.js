@@ -53,3 +53,7 @@ function createNew() {
             selectAll();
         });
 }
+//inquire prompt to list available options (view all items (selectall()), view Low Stock (selectLoStock()), Order Items (selectall(),
+// then inquire prompt which item id to add to, inquire prompt how many to add, the updateItem function to run with the variables, and then a 
+//seledt to view the updated item and print the cost, and create new, inquire prompt for prod_name, depart_name, stock, and cost, and then a select
+//function for new item.
