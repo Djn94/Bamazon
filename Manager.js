@@ -187,24 +187,24 @@ inquirer.prompt([
                                     if (err) throw err;
                                     console.log('Your new items have been ordered! Below is the new current stock: ')
                                     console.log(newStock);
-                                    //onnection.end();
+                                    //connection.end();
                                 });
-                        })
-                    })
-
-                })
-                if (userChoice === "Add new item") {
-                    console.log('---------------------------------')
-                    console.log('Here you can add new products! ')
-
-                }
-                else {
-
-                    console.log('Good bye (:')
-                        // connection.end();
-                        ;
-                }
+                        });
+                    });
+                });
             }
         })
-    };
-});
+    }
+    if (userChoice === "Add new item") {
+        console.log('---------------------------------')
+        console.log('Here you can add new products! ')
+
+    }
+    else {
+
+        console.log('Good bye (:')
+            // connection.end();
+            ;
+
+    }
+})
