@@ -73,11 +73,13 @@ inquirer.prompt([
         console.log('-----------------------------');
         console.log('Here you may view all available products: ');
         selectAll();
+        //  connection.end();
     };
     if (userChoice === "View low stock") {
         console.log('---------------------------------------');
         console.log('Here are all products with a stock of five or less: ');
         selectLoStock();
+        // connection.end();
     };
     if (userChoice === "Replenish stock") {
         console.log('--------------------------------------');
@@ -116,11 +118,29 @@ inquirer.prompt([
                             const orderNum = newOrder.orderAmount;
                             const itemCost = renewItem.cost;
                             const orderCost = (itemCost * orderNum)
-                            console.log(`we will be ordering ${orderNum} units of ${renewItem.prod_name} at a cost of ${orderCost} dollars`)
+                            console.log(`we will be ordering ${orderNum} units of ${renewItem.prod_name} at a cost of ${orderCost} dollars`);
+                            console.log(renewItem.stock);
+                            console.log(orderNum);
+                            const newStock = (parseInt(renewItem.stock) + parseInt(orderNum));
+                            connection.query("UPDATE products SET ? WHERE ? ",
+                                [
+                                    {
+                                        stock: newStock
+                                    },
+                                    {
+                                        prod_name: renewItem.prod_name
+                                    }
+                                ],
+                                function (err, res) {
+                                    if (err) throw err;
+                                    console.log('Your new items have been ordered! Below is the new current stock: ')
+                                    console.log(newStock);
+                                    //connection.end();
+                                });
                         });
                     });
                 });
-            };
+            }
             else if (user.allOrLow === "View low stock") {
                 console.log('view low stock');
                 selectLoStock();
@@ -130,24 +150,61 @@ inquirer.prompt([
                     message: "Please enter the product's ID you wish to order more of: "
                 }]
                 ).then(function (useransw) {
-                    console.log(useransw);
-                    console.log(useransw.orderId);
-                    console.log('we will order more of' + useransw.orderId);
-                    // connection.end();
+                    connection.query("SELECT * FROM PRODUCTS", function (err, res) {
+                        if (err) throw err;
+                        console.log('here com es the product list, then array index, adjusted index, productlist[adjusted]')
+                        const productList = res;
+                        console.log(res)
+                        console.log(productList)
+                        const arrayIndex = useransw.orderId;
+                        console.log(arrayIndex);
+                        const adjustedIndex = (arrayIndex - 1);
+                        console.log(productList[adjustedIndex]);
+                        const renewItem = productList[adjustedIndex];
+                        console.log(renewItem);
+                        inquirer.prompt([{
+                            type: 'input',
+                            name: 'orderAmount',
+                            message: 'How many would you like to order? '
+                        }]).then(function (newOrder) {
+                            const orderNum = newOrder.orderAmount;
+                            const itemCost = renewItem.cost;
+                            const orderCost = (itemCost * orderNum)
+                            console.log(`we will be ordering ${orderNum} units of ${renewItem.prod_name} at a cost of ${orderCost} dollars`);
+                            console.log(renewItem.stock);
+                            console.log(orderNum);
+                            const newStock = (parseInt(renewItem.stock) + parseInt(orderNum));
+                            connection.query("UPDATE products SET ? WHERE ? ",
+                                [
+                                    {
+                                        stock: newStock
+                                    },
+                                    {
+                                        prod_name: renewItem.prod_name
+                                    }
+                                ],
+                                function (err, res) {
+                                    if (err) throw err;
+                                    console.log('Your new items have been ordered! Below is the new current stock: ')
+                                    console.log(newStock);
+                                    //onnection.end();
+                                });
+                        })
+                    })
+
                 })
+                if (userChoice === "Add new item") {
+                    console.log('---------------------------------')
+                    console.log('Here you can add new products! ')
+
+                }
+                else {
+
+                    console.log('Good bye (:')
+                        // connection.end();
+                        ;
+                }
             }
-        });
-        // updateProducts();
-    }
-    if (userChoice === "Add new item") {
-        console.log('---------------------------------')
-        console.log('Here you can add new products! ')
-
-    }
-    else {
-
-        console.log('Good bye (:')
-            // connection.end();
-            ;
-    }
+        })
+    };
 });
