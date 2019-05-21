@@ -16,14 +16,14 @@ connection.connect(function (err) {
         inquirer.prompt([
             {
                 type: 'input',
-                message: 'Which item would you like to purchase? Select by ID number (1-10)',
+                message: 'Which item would you like to purchase? Select by ID number',
                 name: 'selection',
             }]).then(function (response, err) {
                 if (err) throw err;
                 let selectionIndex = parseInt(response.selection)
                 let arrayIndex = (selectionIndex - 1);
                 let selectedItem = productList[arrayIndex];
-                if (selectionIndex <= 1 || selectionIndex >= 11) {
+                if (selectionIndex <= 0 || selectionIndex >= 11) {
                     console.log('Invalid ID')
                 }
                 else {

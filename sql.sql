@@ -21,5 +21,4 @@ VALUES ("Shoes", 'clothing', 60.00, 6),
 ("Tbone", 'steak', 19.00, 44), 
 ("Filet", "steak", 64.00, 4);
 SELECT * FROM PRODUCTS;
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
 

@@ -202,9 +202,9 @@ inquirer.prompt([
     }
     else {
 
-        console.log('Good bye (:')
-            // connection.end();
-            ;
+        //  console.log('Good bye (:')
+        // connection.end();
+        ;
 
     }
 })
